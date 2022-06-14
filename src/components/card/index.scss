@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+
+  .card {
+    height: 200px;
+    width: 200px;
+    text-align: center;
+    padding: 6px;
+    background-color: #fff;
+    border-radius: 8%;
+    cursor: pointer;
+    will-change: transition;
+    transition: 0.3s;
+
+    &:hover {
+      transition: 0.3s;
+      transform: scale(1.07);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+        rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    }
+
+    h1 {
+      font-size: 22px;
+      letter-spacing: 0.6px;
+    }
+
+    .pokemon-types {
+      width: 75px;
+      margin: auto;
+      padding: 2px;
+      background: #fff;
+      border-radius: 16px;
+      margin-top: 4px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+  }
+}
