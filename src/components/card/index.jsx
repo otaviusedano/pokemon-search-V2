@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react'
 
-import getName from '../../core/api'
+import getPokemonByName from '../../core/helper/getPokemonByName'
 
 import './index.scss'
+import PokemonTypes from '../pokemonType'
 
 function Card (poke) {
   const [pokemon, setPokemon] = useState()
 
-  console.log()
+  const pokemonId = poke.id
+  const pokemonName = poke.name
 
   useEffect(() => {
-    const pokemon = async () => {
-      const details = await getName(poke.name)
-      return setPokemon(details)
+    const pokemonInfos = async () => {
+      setPokemon(await getPokemonByName(pokemonName))
     }
 
-    pokemon()
-  }, [])
+    pokemonInfos()
+  }, [pokemon])
 
   return (
     <div className='container'>
       <div className='card'>
-        <p className='pokemon-id'>#{poke.id}</p>
-        <h1>
-          {poke?.name}
-        </h1>
-        <img src={pokemon?.sprites?.front_default} alt="" />
+        <div className='card-top'>
+          <span> #{pokemonId} </span>
+          <h1> {pokemonName} </h1>
+        </div>
+        <img src={pokemon?.sprites?.front_default} alt="pokemonImage" />
+          <PokemonTypes name={pokemonName} />
       </div>
     </div>
   )
