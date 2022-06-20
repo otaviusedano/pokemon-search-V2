@@ -1,45 +1,47 @@
-import React, { useState, useEffect, useMemo } from 'react'
-// import _ from 'lodash'
+import React, { useState, useEffect } from 'react'
 
 import { getAll } from '../../core/api'
-import Card from '../card'
+import Card from '../card/index'
 
-import './index.scss'
+import './styles.scss'
 
-function Pokedex () {
+function Pokedex ({ total, pokemonFinded, result, setResult, pokemonsPerPage, filter }) {
   const [pokemonViewState, setPokemonViewState] = useState([])
-  const [filterName, setFilterName] = useState('')
-  // const [filterType, setFilterType] = useState([])
+
+  const getPokemons = async (amount) => {
+    const res = await getAll(amount)
+    const pokemons = await res.results
+    setPokemonViewState(pokemons)
+    total(res.count)
+    setResult(pokemonFinded.length)
+  }
 
   useEffect(() => {
-    const allPokemons = async () => {
-      const res = await getAll()
-      const pokemons = await res.results
+    getPokemons(pokemonsPerPage)
+  }, [pokemonsPerPage, filter.length === 0])
 
-      setPokemonViewState(pokemons)
-    }
-
-    allPokemons()
-  }, [])
-
-  const filterPokemons = useMemo(() => {
-    const lower = filterName.toLowerCase()
+  const filterPokemons = () => {
+    const pokemonFilter = filter.toLowerCase()
     return pokemonViewState.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(lower.trim())
+      pokemon.name.toLowerCase().includes(pokemonFilter.trim(' '))
     )
-  }, [pokemonViewState, filterName])
+  }
+
+  const pokemonFiltered = filterPokemons().map((pokemon, index) => (
+    <div key={index}>
+      <Card name={pokemon.name} />
+    </div>
+  ))
+
+  const pokemonFind =
+    <div>
+      <Card name={pokemonFinded.name} />
+    </div>
 
   return (
     <div className='container-pokedex'>
-      <form className='container-search'>
-        <input value={filterName} type="text" onChange={(e) => setFilterName(e.target.value)} />
-      </form>
       <div className='container-pokemons'>
-        { filterPokemons.map((pokemon, index) => (
-          <div key={index}>
-            <Card id={index + 1} name={pokemon.name} />
-          </div>
-        ))}
+        {result ? pokemonFind : pokemonFiltered}
       </div>
     </div>
   )
