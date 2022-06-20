@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import getPokemonByName from '../../core/helper/getPokemonByName'
 
-import './style.scss'
+import './styles.scss'
 import PokemonTypes from '../pokemonType/index'
 
 function Card (poke) {
