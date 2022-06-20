@@ -1,25 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import getPokemonByName from '../../core/helper/getPokemonByName'
 import typeColors from '../../core/services/pokemonTypes'
 
-import './index.scss'
+import './styles.scss'
 
 function PokemonTypes (poke) {
-  const [pokemon, setPokemon] = useState()
-
-  const pokemonName = poke.name
-
-  useEffect(() => {
-    const pokemonInfos = async () => {
-      setPokemon(await getPokemonByName(pokemonName))
-    }
-
-    pokemonInfos()
-  }, [pokemon])
-
-  const pokemonTypes = pokemon?.types.map((types, index) => {
-    const typeName = types.type.name
+  const pokemonTypes = poke?.info?.types?.map((types, index) => {
+    const typeName = types?.type?.name
 
     return (
       <div style={{ backgroundColor: typeColors[types?.type?.name] }} key={index} className='types'>
