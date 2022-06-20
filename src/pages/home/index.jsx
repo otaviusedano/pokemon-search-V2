@@ -5,7 +5,7 @@ import getName from '../../core/api'
 import Pokedex from '../../components/pokedex'
 import Header from '../../components/header'
 import Pagation from '../../components/pagination'
-import './index.scss'
+import './styles.scss'
 
 function Home () {
   const [pokemonsPerPage, setPokemonsPerPage] = useState(0)
