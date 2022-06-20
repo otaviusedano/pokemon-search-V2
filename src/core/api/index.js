@@ -6,8 +6,8 @@ const getName = async (pokemonName) => {
   return body
 }
 
-export const getAll = async () => {
-  const res = await fetch(apiUrl + 'pokemon?limit=20&offset=0')
+export const getAll = async (page = 0, limit = 20) => {
+  const res = await fetch((apiUrl + `pokemon?limit=${limit}&offset=${page}`))
   const body = await res.json()
   return body
 }
