@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 
 import getPokemonByName from '../../core/helper/getPokemonByName'
 
-import './index.scss'
-import PokemonTypes from '../pokemonType'
+import './style.scss'
+import PokemonTypes from '../pokemonType/index'
 
 function Card (poke) {
-  const [pokemon, setPokemon] = useState()
+  const [pokemon, setPokemon] = useState([])
 
-  const pokemonId = poke.id
+  // const pokemonId = poke
   const pokemonName = poke.name
 
   useEffect(() => {
@@ -17,17 +17,17 @@ function Card (poke) {
     }
 
     pokemonInfos()
-  }, [pokemon])
+  }, [poke])
 
   return (
     <div className='container'>
       <div className='card'>
         <div className='card-top'>
-          <span> #{pokemonId} </span>
+          <span>#{pokemon.id}</span>
           <h1> {pokemonName} </h1>
         </div>
         <img src={pokemon?.sprites?.front_default} alt="pokemonImage" />
-          <PokemonTypes name={pokemonName} />
+          <PokemonTypes info={pokemon} />
       </div>
     </div>
   )
