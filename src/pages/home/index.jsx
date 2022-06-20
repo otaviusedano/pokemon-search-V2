@@ -1,46 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import getName, { getAll } from '../../core/api/index'
+import getName from '../../core/api'
 
+import Pokedex from '../../components/pokedex'
+import Header from '../../components/header'
+import Pagation from '../../components/pagination'
 import './index.scss'
-import Card from '../../components/card'
 
 function Home () {
-  const [pokemonName, setPokemonName] = useState('')
-  const [pokemonImage, setPokemonImage] = useState()
-  const [pokemonViewState, setPokemonViewState] = useState([])
+  const [pokemonsPerPage, setPokemonsPerPage] = useState(0)
+  const [totalPokemons, setTotalPokemons] = useState(0)
+  const [filterName, setFilterName] = useState('')
+  const [pokemonSearched, setPokemonSearched] = useState([])
+  const [result, setResult] = useState(false)
 
-  const search = async () => {
-    const pokemon = await getName(pokemonName)
-    setPokemonImage(pokemon.sprites.front_default)
-    return pokemon
+  const searchPokemon = async () => {
+    const res = await getName(filterName)
+    const pokemons = await res
+    setPokemonSearched(pokemons)
+    setResult(true)
   }
 
-  useEffect(() => {
-    const allPokemons = async () => {
-      const res = await getAll()
-      const pokemons = await res.results
-      setPokemonViewState(pokemonViewState.concat(pokemons))
-    }
-
-    allPokemons()
-  }, [])
-
   return (
-    <div className='app'>
-      <h1>Coloque o nome do pokemon</h1>
-      <form className='container-search'>
-        <input onInput={(e) => setPokemonName(e.currentTarget.value)} value={pokemonName} type="text" />
-        <button onClick={async () => await search()} type='button'>Enviar</button>
-      </form>
-      <img src={pokemonImage} alt="pokeImg" />
-      <div className='container-pokedex'>
-        {pokemonViewState.map((pokemon, index) => (
-          <div key={index} >
-            <Card id={index + 1} name={pokemon.name} ></Card>
-          </div>
-        ))}
-      </div>
+    <div className='home-page'>
+      <Header
+        search={searchPokemon}
+        setFilter={setFilterName}
+        filter={filterName}
+      />
+      <Pokedex
+        filter={filterName}
+        pokemons={pokemonsPerPage}
+        result={result}
+        setResult={setResult}
+        pokemonFinded={pokemonSearched}
+        total={setTotalPokemons}
+        pokemonsPerPage={pokemonsPerPage}
+      />
+      <Pagation
+        limit={20}
+        total={totalPokemons}
+        offset={pokemonsPerPage}
+        setOffset={setPokemonsPerPage}
+      />
     </div>
   )
 }
