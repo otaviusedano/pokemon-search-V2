@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
-import getName from '../../core/api'
+import getPokemonByName from '../../core/helper/getPokemonByName'
 
 import Pokedex from '../../components/pokedex'
 import Header from '../../components/header'
 import Pagation from '../../components/pagination'
 import './styles.scss'
+import ContainerPage from '../../components/containerPage'
 
 function Home () {
   const [pokemonsPerPage, setPokemonsPerPage] = useState(0)
@@ -15,35 +16,37 @@ function Home () {
   const [result, setResult] = useState(false)
 
   const searchPokemon = async () => {
-    const res = await getName(filterName)
-    const pokemons = await res
-    setPokemonSearched(pokemons)
+    const pokemon = await getPokemonByName(filterName)
+    setPokemonSearched(pokemon)
+    console.log(pokemon)
     setResult(true)
   }
 
   return (
-    <div className='home-page'>
+    <ContainerPage display={'flexColumn'}>
       <Header
         search={searchPokemon}
         setFilter={setFilterName}
         filter={filterName}
       />
-      <Pokedex
-        filter={filterName}
-        pokemons={pokemonsPerPage}
-        result={result}
-        setResult={setResult}
-        pokemonFinded={pokemonSearched}
-        total={setTotalPokemons}
-        pokemonsPerPage={pokemonsPerPage}
-      />
+      <main>
+        <Pokedex
+          filter={filterName}
+          pokemons={pokemonsPerPage}
+          result={result}
+          setResult={setResult}
+          pokemonFinded={pokemonSearched}
+          total={setTotalPokemons}
+          pokemonsPerPage={pokemonsPerPage}
+        />
+      </main>
       <Pagation
         limit={20}
         total={totalPokemons}
         offset={pokemonsPerPage}
         setOffset={setPokemonsPerPage}
       />
-    </div>
+    </ContainerPage>
   )
 }
 
