@@ -3,11 +3,25 @@ import React from 'react'
 import './styles.scss'
 
 function Header ({ search, filter, setFilter }) {
+  const handleSubmit = (e) => e.preventDefault()
+
   return (
     <header>
-      <form className='container-search'>
-        <input value={filter} type="text" onChange={(e) => setFilter(e.target.value)} />
-        <button onClick={() => search()} type='button'>Procurar</button>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <input
+            value={filter}
+            type="text"
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder="Procure um Pokemon"
+          />
+          <button
+            disabled={filter.length === 0}
+            onClick={() => search()}
+            type='submit'>
+            Procurar
+          </button>
+        </label>
       </form>
     </header>
   )
