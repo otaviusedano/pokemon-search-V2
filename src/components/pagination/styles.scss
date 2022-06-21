@@ -1,13 +1,31 @@
-.container-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
+footer {
+  margin: 16px;
+  flex-basis: 20vh;
 
-  button {
-    height: 68px;
-    width: 68px;
-    background-color: antiquewhite;
-    border-radius: 20px;
+  .container-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    button {
+      cursor: pointer;
+      height: 68px;
+      width: 68px;
+      border: 1px solid #f1f1f1;
+      background-color: #faebd7;
+      border-radius: 20px;
+      transition: 0.5s;
+      font-size: 22px;
+      
+      &:hover {
+        border: 1px solid #eed6b5;
+      }
+    }
+
+    .container-page {
+      display: flex;
+      font-size: 18px;
+    }
   }
 }
