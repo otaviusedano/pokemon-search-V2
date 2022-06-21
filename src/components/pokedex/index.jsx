@@ -29,21 +29,21 @@ function Pokedex ({ total, pokemonFinded, result, setResult, pokemonsPerPage, fi
 
   const pokemonFiltered = filterPokemons().map((pokemon, index) => (
     <div key={index}>
-      <Card name={pokemon.name} />
+      <Card pokemonName={pokemon.name} />
     </div>
   ))
 
-  const pokemonFind =
+  const pokemonResult =
     <div>
-      <Card name={pokemonFinded.name} />
+      <Card pokemonName={pokemonFinded.name} />
     </div>
 
   return (
-    <div className='container-pokedex'>
+    <section>
       <div className='container-pokemons'>
-        {result ? pokemonFind : pokemonFiltered}
+        {result ? pokemonResult : pokemonFiltered}
       </div>
-    </div>
+    </section>
   )
 }
 
