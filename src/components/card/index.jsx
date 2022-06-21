@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import getPokemonByName from '../../core/helper/getPokemonByName'
 
 import './styles.scss'
 import PokemonTypes from '../pokemonType/index'
 
-function Card (poke) {
+function Card ({ pokemonName }) {
   const [pokemon, setPokemon] = useState([])
-
-  // const pokemonId = poke
-  const pokemonName = poke.name
 
   useEffect(() => {
     const pokemonInfos = async () => {
@@ -17,19 +16,21 @@ function Card (poke) {
     }
 
     pokemonInfos()
-  }, [poke])
+  }, [pokemonName])
 
   return (
-    <div className='container'>
-      <div className='card'>
-        <div className='card-top'>
-          <span>#{pokemon.id}</span>
-          <h1> {pokemonName} </h1>
-        </div>
-        <img src={pokemon?.sprites?.front_default} alt="pokemonImage" />
+    <Link to={`/details/${pokemonName}`} >
+      <div className='container-card'>
+        <div className='card'>
+          <div className='card-top'>
+            <span>#{pokemon.id}</span>
+            <h1> {pokemonName} </h1>
+          </div>
+          <img src={pokemon?.sprites?.front_default} alt="pokemonImage" />
           <PokemonTypes info={pokemon} />
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
