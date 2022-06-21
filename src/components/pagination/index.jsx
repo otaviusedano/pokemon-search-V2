@@ -27,12 +27,16 @@ function Pagination ({ offset, limit, total, setOffset }) {
   }
 
   return (
-    <div className='container-buttons'>
-      <button onClick={() => prevPage()} type='button' >{'<'}</button>
-        <span>{current} /</span>
-        <span>{pages}</span>
-      <button onClick={() => nextPage()} type='button' >{'>'}</button>
-    </div>
+    <footer>
+      <div className='container-buttons'>
+        <button onClick={() => prevPage()} type='button' >{'<'}</button>
+        <div className='container-page'>
+          <span>{current} /</span>
+          <span>{pages}</span>
+        </div>
+        <button onClick={() => nextPage()} type='button' >{'>'}</button>
+      </div>
+    </footer>
   )
 }
 
