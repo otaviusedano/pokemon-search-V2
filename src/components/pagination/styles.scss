@@ -1,6 +1,6 @@
 footer {
-  margin: 16px;
-  flex-basis: 20vh;
+  flex-basis: 10vh;
+  padding: 0 24px;
 
   .container-buttons {
     display: flex;
@@ -23,7 +23,7 @@ footer {
       }
     }
 
-    .container-page {
+    .container-count-pages {
       display: flex;
       font-size: 18px;
     }
