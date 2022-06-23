@@ -1,4 +1,4 @@
-.container-flexColumn {
+.container-flex-column {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -7,4 +7,15 @@
 
 .container-flex {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f1f1f1;
+}
+
+@media only screen and (max-width: 564px) {
+  .container-flex {
+    height: auto;
+    padding: 22px;
+  }
 }
