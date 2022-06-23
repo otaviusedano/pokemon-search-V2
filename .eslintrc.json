@@ -19,6 +19,7 @@
     ],
     "rules": {
         "no-empty": 0,
-        "no-irregular-whitespace":0
+        "no-irregular-whitespace":0,
+        "react/prop-types": "off"
     }
 }
