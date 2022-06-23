@@ -1,0 +1,14 @@
+.container-types {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  
+  .types {
+    min-width: 60px;
+    padding: 6px;
+    border-radius: 16px;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+}
