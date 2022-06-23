@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
+import { PokemonContext } from '../../contexts/pokemonContext'
 import './styles.scss'
 
-function Pagination ({ offset, limit, total, setOffset }) {
-  const current = offset ? offset / limit + 1 : 1
-  const pages = Math.ceil(total / limit)
+function Pagination () {
+  const {
+    defaultLimit,
+    pokemonsTotal,
+    offset,
+    setOffset,
+    result
+  } = useContext(PokemonContext)
+
+  const current = offset ? Math.floor(offset / defaultLimit) + 1 : 1
+  const pages = !result ? Math.ceil(pokemonsTotal / defaultLimit) : 1
 
   function onPageChange (page) {
-    setOffset((page - 1) * limit)
+    setOffset((page - 1) * defaultLimit)
   }
 
   function nextPage () {
@@ -31,7 +40,7 @@ function Pagination ({ offset, limit, total, setOffset }) {
       <div className='container-buttons'>
         <button onClick={() => prevPage()} type='button' >{'<'}</button>
         <div className='container-page'>
-          <span>{current} /</span>
+          <span>{!result ? current : 1} /</span>
           <span>{pages}</span>
         </div>
         <button onClick={() => nextPage()} type='button' >{'>'}</button>
