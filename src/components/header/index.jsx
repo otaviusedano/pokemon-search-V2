@@ -1,23 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+import { PokemonContext } from '../../contexts/pokemonContext'
 
 import './styles.scss'
 
-function Header ({ search, filter, setFilter }) {
-  const handleSubmit = (e) => e.preventDefault()
+function Header () {
+  const {
+    filterName,
+    setFilterName,
+    searchPokemon,
+    handleSubmit
+  } = useContext(PokemonContext)
+
+  const handleChange = (e) => {
+    setFilterName(e.target.value)
+  }
 
   return (
     <header>
       <form onSubmit={handleSubmit}>
         <label>
           <input
-            value={filter}
+            value={filterName}
             type="text"
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => handleChange(e)}
             placeholder="Procure um Pokemon"
           />
           <button
-            disabled={filter.length === 0}
-            onClick={() => search()}
+            disabled={!filterName.length}
+            onClick={() => searchPokemon()}
             type='submit'>
             Procurar
           </button>
