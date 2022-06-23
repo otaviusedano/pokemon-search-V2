@@ -7,10 +7,22 @@ const getName = async (pokemonName) => {
   return body
 }
 
-export const getAll = async (page = 0, limit = 24) => {
+const getAll = async (page, limit = 24) => {
   const res = await fetch((apiUrl + `pokemon?limit=${limit}&offset=${page}`))
   const body = await res.json()
   return body
 }
 
-export default getName
+const getEvolutionChain = async (pokemonId) => {
+  const res = await fetch(apiUrl + `pokemon-species/${pokemonId}`)
+  const body = await res.json()
+  return body
+}
+
+const getEvolutionPokemons = async (evolutionChainUrl) => {
+  const res = await fetch(evolutionChainUrl)
+  const body = await res.json()
+  return body
+}
+
+export { getName, getAll, getEvolutionChain, getEvolutionPokemons }
