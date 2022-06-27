@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
+
 import { getEvolutionChain, getEvolutionPokemons } from '../../core/api'
 
 import Card from '../card'
@@ -8,46 +9,75 @@ import './styles.scss'
 function Evolutions ({ pokemon }) {
   const [evolutions, setEvolutions] = useState([])
 
-  const getChain = async () => {
-    const chain = await getEvolutionChain(pokemon.id)
-    const chainUrl = chain.evolution_chain.url
-    const evolution = await getEvolutionPokemons(chainUrl)
-    const currentChain = evolution.chain.species.name
-    setEvolutions(evolution.chain.evolves_to.map((evolve) => {
-      let pokemonEvolutions = evolve.species.name
-      evolve?.evolves_to?.forEach((species) => {
-        console.log(species?.species?.name)
-        pokemonEvolutions = [pokemonEvolutions, species?.species?.name]
-        pokemonEvolutions = pokemonEvolutions.join().split(',')
-      })
+  const formatEvolutions = (evolution) => {
+    return {
+      next: evolution.evolves_to.map(formatEvolutions),
+      pokemon: { name: evolution.species.name }
+    }
+  }
 
-      if (pokemonEvolutions.indexOf(currentChain) < 0 && pokemonEvolutions < 2) {
-        return [currentChain, pokemonEvolutions]
-      }
-      return [currentChain, ...pokemonEvolutions]
-    }))
+  const getChain = async () => {
+    const evolutionChain = await getEvolutionChain(pokemon.id)
+    const chainUrl = evolutionChain?.evolution_chain?.url
+    pokemon.evolutions = await getEvolutionPokemons(chainUrl)
+    pokemon.evolutions = formatEvolutions(pokemon?.evolutions?.chain)
+    return pokemon?.evolutions
+  }
+
+  const getEvolution = async (chain) => {
+    if (!chain) return
+    if (chain.pokemon.name) {
+      return pokemon.evolutions
+    }
+    return chain
+  }
+
+  const getAllEvolutions = async () => {
+    const evolutions = await getEvolution(await getChain())
+    setEvolutions(evolutions)
+  }
+
+  const getFirstPokemonChain = (chain) => {
+    console.log(chain)
+    if (chain.length <= 0) return
+    return (
+      <div className='evolutions'>
+        <Card pokemonName={chain?.pokemon?.name} />
+      </div>
+    )
+  }
+
+  const generatePokemonEvolutions = (chain) => {
+    if (!chain) return
+
+    return (
+      <>
+        {
+          chain.next?.map((chain, index) => {
+            return (
+              <div className='evolutions' key={index}>
+                <Card pokemonName={chain?.pokemon?.name} />
+                {generatePokemonEvolutions(chain)}
+              </div>
+            )
+          })
+        }
+      </>
+    )
   }
 
   useEffect(() => {
-    getChain()
-  }, [pokemon.id])
+    getAllEvolutions()
+  }, [pokemon])
 
   return (
     <>
       <div className='container-evolutions'>
-        {evolutions.map((pokemons) => {
-          console.log(pokemons)
-          return pokemons.map((pokemonName, index) => {
-            return (
-              <div key={index}>
-                <Card pokemonName={pokemonName} />
-              </div>
-            )
-          })
-        })}
+        {getFirstPokemonChain(evolutions)}
+        {generatePokemonEvolutions(evolutions)}
       </div>
     </>
   )
 }
 
-export default Evolutions
+export default memo(Evolutions)
