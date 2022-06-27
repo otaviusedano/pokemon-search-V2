@@ -7,9 +7,11 @@ import './styles.scss'
 function Details () {
   return (
     <ContainerPage display={'flex'}>
-      <main>
-        <PokemonDetailsCard />
-      </main>
+      <div className='container-details'>
+        <main>
+          <PokemonDetailsCard />
+        </main>
+      </div>
     </ContainerPage>
   )
 }
