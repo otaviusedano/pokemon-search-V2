@@ -7,14 +7,10 @@ import './styles.scss'
 function Header () {
   const {
     filterName,
-    setFilterName,
-    searchPokemon,
-    handleSubmit
+    handleSubmit,
+    handleChange,
+    searchPokemon
   } = useContext(PokemonContext)
-
-  const handleChange = (e) => {
-    setFilterName(e.target.value)
-  }
 
   return (
     <header>
