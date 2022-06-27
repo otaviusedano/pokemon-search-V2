@@ -29,7 +29,7 @@ export function PokemonContextProvider ({ children }) {
   }, [offset, !filterName.length])
 
   const searchPokemon = async () => {
-    const pokemon = await getPokemonByName(filterName)
+    const pokemon = await getPokemonByName(filterName.trim(' '))
     if (pokemon === 'Error') {
       setPokemonFinded('Pokemon notFound!')
     } else {
@@ -40,11 +40,16 @@ export function PokemonContextProvider ({ children }) {
 
   const handleSubmit = (e) => e.preventDefault()
 
+  const handleChange = (e) => {
+    setFilterName(e.target.value)
+  }
+
   const filterPokemons = () => {
     const pokemonFilter = filterName.toLowerCase()
-    return pokemonViewState.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(pokemonFilter.trim(' '))
-    )
+    return pokemonViewState.filter((pokemon) => {
+      const pokemoName = pokemon.name.toLowerCase()
+      return pokemoName.includes(pokemonFilter.trim(' '))
+    })
   }
 
   const pokemonFiltered = filterPokemons().map((pokemon, index) => (
@@ -78,7 +83,8 @@ export function PokemonContextProvider ({ children }) {
         searchPokemon,
         pokemonResult,
         defaultLimit,
-        handleSubmit
+        handleSubmit,
+        handleChange
       }
     }>
       {children}
