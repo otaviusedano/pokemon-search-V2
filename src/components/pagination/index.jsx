@@ -36,14 +36,14 @@ function Pagination () {
   }
 
   return (
-    <footer>
+    <footer data-testid='pagination'>
       <div className='container-buttons'>
-        <button onClick={() => prevPage()} type='button' >{'<'}</button>
+        <button disabled={result} onClick={() => prevPage()} type='button' >{'<'}</button>
         <div className='container-page'>
           <span>{!result ? current : 1} /</span>
           <span>{pages}</span>
         </div>
-        <button onClick={() => nextPage()} type='button' >{'>'}</button>
+        <button disabled={result} onClick={() => nextPage()} type='button' >{'>'}</button>
       </div>
     </footer>
   )
